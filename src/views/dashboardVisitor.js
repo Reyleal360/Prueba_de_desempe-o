@@ -1,7 +1,7 @@
 import { getSession } from "../utils/auth";
 import { qs } from "../utils/dom";
 
-export async function renderDashboard() {
+export async function renderDashboardVisitor() {
     const app = document.getElementById('app');
     const events = await api.getEvents();
     const user = getSession();
