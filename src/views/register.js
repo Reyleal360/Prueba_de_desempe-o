@@ -1,9 +1,11 @@
+import { api } from "../services/api";
+import { saveSession } from "../utils/auth";
+import { navigateTo } from '../router/index.js';
+import { qs } from "../utils/dom";
+
 export function showRegiter(){
-    if(localStorage.getItem('currentUser')) {
-        location.hash = '/dashboard';
-        return;
-    }
-    document.getElementById('app').innerHTML = `
+    const app = document.getElementById('app');
+    app.innerHTML = `
     <div class="container">    
     <h1>Register for Event Manager</h1>
         <form id="registerForm">
@@ -19,32 +21,24 @@ export function showRegiter(){
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
+            <select  name="rolID" required>
+                <option value="1">Worker</option>
+                <option value="2">Customer</option>
+            </select>
             <button type="submit">Register</button>
+            <a href="#/login">Already have an account? Login</a>
+
         </form>
-        <a href="#/login">Already have an account? Login</a>
     </div>
     `;
 
-    document.getElementById('registerForm').onsubmit = async e => {
+
+    qs(app, '#registerForm').onsubmit = async e => {
         e.preventDefault();
-        const f = e.target;
-        const newUser ={
-         username : f.username.value.trim(),
-         email : f.email.value.trim(),
-         password : f.password.value.trim(),
-         roleID : 2 // Default role for new users
-        };
+       const body = Object.fromEntries(new FormData(e.target).entries());
+        body.id = Date.now();
+        await api.createUser(body);
+        saveSession(body);
+        navigateTo('/dashboard');
 
-    const res = await fetch('http://localhost:3000/users', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, email, password, roleID })
-    });
-
-}
-
-
-
-}
+    }}
