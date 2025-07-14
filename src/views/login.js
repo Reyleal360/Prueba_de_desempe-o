@@ -1,3 +1,4 @@
+import { navigateTo } from "../router";
 import { api } from "../services/api";
 import { saveSession } from "../utils/auth";
 import { qs } from "../utils/dom";
@@ -15,17 +16,16 @@ export function renderLogin(){
             </form>
         </div>
     `;
-    qs(app, '#loginForm').onsubmit = async e => {
+    qs(app, '#loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(e.target).entries());
+        const body = Object.fromEntries(new FormData(e.target).entries());
         const users = await api.getUsers();
-        const user = users.find(user => user.username === data.username && user.password === data.password);
+        const user = users.find(u => u.email === body.email && u.password === body.password);
         if (user) {
             saveSession(user);
-            navigateTo('/dashboard');
+            navigateTo = '/dashboard';
         } else {
             alert('Invalid credentials');
         }
-    }
-
+    });
 }
