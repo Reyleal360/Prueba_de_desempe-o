@@ -1,0 +1,18 @@
+{
+    "users":[],
+    "roles": [
+        {
+            "id": 1,
+            "name": "admin",
+            "description": "Administrator with full access"
+        },
+        {
+            "id": 2,
+            "name": "viewer",
+            "description": "Viewer with read-only access"
+        }
+    ],
+    "events": [
+        
+    ]
+}
