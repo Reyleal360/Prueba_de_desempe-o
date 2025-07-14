@@ -24,7 +24,7 @@ export function showLogin(){
     document.getElementById('loginForm').onsubmit = async e => {
         e.preventDefault();
         const form = e.target;
-        const username = form.username.value.trim();
+        const input = form.username.value.trim();
         const password = form.password.value.trim();
 
         const query = input.includes('@') 

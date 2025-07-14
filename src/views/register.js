@@ -24,4 +24,27 @@ export function showRegiter(){
         <a href="#/login">Already have an account? Login</a>
     </div>
     `;
+
+    document.getElementById('registerForm').onsubmit = async e => {
+        e.preventDefault();
+        const f = e.target;
+        const newUser ={
+         username : f.username.value.trim(),
+         email : f.email.value.trim(),
+         password : f.password.value.trim(),
+         roleID : 2 // Default role for new users
+        };
+
+    const res = await fetch('http://localhost:3000/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, email, password, roleID })
+    });
+
+}
+
+
+
 }
