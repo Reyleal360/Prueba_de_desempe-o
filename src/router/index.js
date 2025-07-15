@@ -1,55 +1,55 @@
-import { router } from "json-server";
-import { renderDashboard } from "../views/dashboardAdmin";
-import { showEditEvents } from "../views/editEvents";
-import { renderLogin } from "../views/login";
-import { showRegiter } from "../views/register";
-import { getSession } from "../utils/auth";
-import { notFound } from "../views/notFound";
-//dynamic import for the dashboard
-const routes = {
-    '/login':renderLogin,
-    '/register': showRegiter,
-    '/dashboard': renderDashboard,
-    '/dashboard/events/create': showEditEvents,
-};// dynamic edit route handled 
+import { renderLogin } from '../views/login.js';
+import { renderRegister } from '../views/register.js';
+import { renderDashboard } from '../views/dashboard.js';
+import { renderCreateEvent } from '../views/createEvents.js';
+import { renderEditEvent } from '../views/editEvents.js';
+import { getSession } from '../utils/auth.js';
+import { renderNotFound } from '../views/notFound.js';
 
+const routes = {
+  '/login': renderLogin,
+  '/register': renderRegister,
+  '/dashboard': renderDashboard,
+  '/dashboard/events/create': renderCreateEvent,
+  // dynamic edit route handled manually
+};
 
 function parseLocation() {
-   return location.hash.slice(1).toLowerCase() || '/login';
+  return location.hash.slice(1).toLowerCase() || '/login';
 }
 
-function findComponent(path) {
-    if(path.startsWith('/dashboard/events/edit/')) {
-        return showEditEvents;
-    }
-    return routes[path] || null;
+function findComponentByPath(path) {
+  if (path.startsWith('/dashboard/events/edit')) {
+    return renderEditEvent;
+  }
+  return routes[path] || null;
 }
+
 export function navigateTo(path) {
-    location.hash = path;
+  location.hash = path;
 }
 
 export function initRouter() {
-    window.addEventListener('hashchange',router);
-    router();
+  window.addEventListener('hashchange', router);
+  router();
 }
 
 function router() {
-    const path = parseLocation();
-    const isAuthenticated =  !!getSession();
-    
-    // protect routes
-if(!isAuthenticated && path.startsWith('/dashboard')) {
-        return navigateTo('/login');
-    }
-    if(isAuthenticated && path === '/login' || path === '/register') {
-        return navigateTo ('/dashboard');
-    }
+  const path = parseLocation();
+  const isAuth = !!getSession();
 
-    const componet = findComponent(path);
-    if(componet) {
-        componet();
-    }
-    else {
-        notFound();
-    }
+  // protección de rutas
+  if (!isAuth && path.startsWith('/dashboard')) {
+    return navigateTo('/login');
+  }
+  if (isAuth && (path === '/login' || path === '/register')) {
+    return navigateTo('/dashboard');
+  }
+
+  const component = findComponentByPath(path);
+  if (component) {
+    component();
+  } else {
+    renderNotFound();
+  }
 }

@@ -1,37 +1,34 @@
-import { navigateTo } from "../router";
-import { api } from "../services/api";
-import { qs} from "../utils/dom";
+import { api } from '../services/api.js';
+import { navigateTo } from '../router/index.js';
+import { qs } from '../utils/dom.js';
 
-export async function showEditEvents() {
-    const app = document.getElementById('app');
-    const id = location.hash.split('/').pop();
-    const event = await api.getEventById(id);
+export async function renderEditEvent() {
+  const app = document.getElementById('app');
+  const id = location.hash.split('/').pop();
+  const event = await api.getEventById(id);
 
-    if (!event) {
-        app.innerHTML = `<p>Event not found</p>`;
-        return;
-    }
-    app.innerHTML = `
-        <h2>Edit Event</h2>
-        <form id="editEventForm">
-        <input type="name" value="${event.name}" name="name" placeholder="Event Name" required>
-        <textarea name="description" placeholder="Event Description" required>${event.description || ''}</textarea>
-        <input type="date" value="${event.date}" name="date" required>
-        <input type="time" value="${event.time}" name="time" required>
-        <input type="number" value="${event.location}" name="capacity" placeholder="Capacity" required>
-        <button type="submit">Save Changes</button>
-        <button type="button" id="cancelButton">Cancel</button>
-        </form>
-    `;
+  if (!event) {
+    return app.innerHTML = '<p>Event no found </p>';
+  }
 
-    qs(app, '#cancelBtn').addEventListener('click', () => navigateTo('/dashboard'));
-    qs(app, '#editEventForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const body = Object.fromEntries(new FormData(e.target).entries());
-        body.enlorlled = event.enrolled  || [];
-        await api.updateEvent(id, body);
-        alert('Event updated successfully');
-        navigateTo('/dashboard');
-    });
+  app.innerHTML = `
+    <h2>Edit event</h2>
+    <form id="eventForm">
+      <input name="name"  placeholder="Enter your name "  value="${event.name}"  required />
+      <textarea name="description" placeholder="Enter Description">${event.description   }</textarea>
+      <input name="date" type="date"  required  value="${event.date}" />
+      <input name="capacity" type="number"  placeholder="Capacity" value="${event.capacity}" required />
+      <button type="submit">Save</button>
+      <button type="button" id="cancelBtn">Cancel</button>
+    </form>
+  `;
 
+  qs(app, '#cancelBtn').addEventListener('click', () => navigateTo('/dashboard'));
+  qs(app, '#eventForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const body = Object.fromEntries(new FormData(e.target).entries());
+    body.enrolled = ev.enrolled || [];
+    await api.updateEvent(id, body);
+    navigateTo('/dashboard');
+  });
 }

@@ -1,31 +1,30 @@
-import { navigateTo } from "../router";
-import { api } from "../services/api";
-import { saveSession } from "../utils/auth";
-import { qs } from "../utils/dom";
+import { api } from '../services/api.js';
+import { saveSession } from '../utils/auth.js';
+import { navigateTo } from '../router/index.js';
+import { qs } from '../utils/dom.js';
 
-export function renderLogin(){
-    const app = document.getElementById('app');
-    app.innerHTML = `
-        <div class="container">
-            <h1>Login</h1>
-            <form id="loginForm">
-                <input   name="email"  type="email" placeholder="Email" required> 
-                <input  name="password" type="password" name="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-                <a href="#/register">Don't have an account? Register</a>
-            </form>
-        </div>
-    `;
-    qs(app, '#loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const body = Object.fromEntries(new FormData(e.target).entries());
-        const users = await api.getUsers();
-        const user = users.find(u => u.email === body.email && u.password === body.password);
-        if (user) {
-            saveSession(user);
-            navigateTo = '/dashboard';
-        } else {
-            alert('Invalid credentials');
-        }
-    });
+export function renderLogin() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input name="email" type="email" placeholder="email" required />
+      <input name="password" type="password" placeholder="password" required />
+      <button type="submit">submit</button>
+      <p> Don´t have account?  <a href="#/register">Register</a></p>
+    </form>
+  `;
+
+  qs(app, '#loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    const users = await api.getUsers();
+    const found = users.find(u => u.email === data.email && u.password === data.password);
+    if (found) {
+      saveSession(found);
+      navigateTo('/dashboard');
+    } else {
+      alert('Password or email incorrect');
+    }
+  });
 }

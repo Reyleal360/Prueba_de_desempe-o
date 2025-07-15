@@ -1,9 +1,5 @@
-export function notFound(){
-    document.getElementById('app').innerHTML = `
-    <div class="container">    
-    <h1>404 - Page Not Found</h1>
-        <p>Sorry, the page you are looking for does not exist.</p>
-        <a href="#/login">Go to Login</a>
-    </div>
-    `;
-}
+export function renderNotFound() {
+    const app = document.getElementById('app');
+    app.innerHTML = '<h2>Page no found</h2><p><a href="#/login">Go to login</a></p>';
+  }
+  
