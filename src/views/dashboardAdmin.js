@@ -1,7 +1,7 @@
 import { api } from '../services/api.js';
 import { navigateTo } from '../router/index.js';
 import { qs } from '../utils/dom.js';
-
+// Function to render the admin dashboard
 export async function renderAdminDashboard() {
   const app = document.getElementById('app');
   const events = await api.getEvents();
@@ -30,6 +30,7 @@ export async function renderAdminDashboard() {
     localStorage.removeItem('eventos_session');
     navigateTo = ('/login')
   });
+  // Add event listeners for creating new events and editing existing ones
   qs(app, '#newEventBtn').addEventListener('click', () => navigateTo('/dashboard/events/create'));
   qs(app, 'tbody').addEventListener('click', async (e) => {
     const id = e.target.dataset.id;

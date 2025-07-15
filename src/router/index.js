@@ -38,7 +38,7 @@ function router() {
   const path = parseLocation();
   const isAuth = !!getSession();
 
-  // protección de rutas
+  // prevent unauthorized access to protected routes
   if (!isAuth && path.startsWith('/dashboard')) {
     return navigateTo('/login');
   }

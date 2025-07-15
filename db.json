@@ -27,6 +27,13 @@
       "email": "rexleal360@gmail.com",
       "password": "123",
       "role": "visitor"
+    },
+    {
+      "id": 1752539220775,
+      "name": "Celular",
+      "email": "rexleal360@gmail.com",
+      "password": "222",
+      "role": "visitor"
     }
   ],
   "events": [

@@ -2,12 +2,12 @@ import { navigateTo } from '../router/index.js';
 import { api } from '../services/api.js';
 import { getSession } from '../utils/auth.js';
 import { qs } from '../utils/dom.js';
-
+// Function to render the visitor dashboard
 export async function renderVisitorDashboard() {
   const app = document.getElementById('app');
   const events = await api.getEvents();
   const user = getSession();
-
+// Check if the user is logged in
   app.innerHTML = `
   <div class="dashboard">
     <h2>events available</h2>
@@ -43,6 +43,7 @@ export async function renderVisitorDashboard() {
     localStorage.removeItem('eventos_session');
     navigateTo = ('/login');
   });
+  // Add event listeners for enroll and unenroll actions
   qs(app, 'tbody').addEventListener('click', async (e) => {
     const id = e.target.dataset.id;
     if (!id) return;

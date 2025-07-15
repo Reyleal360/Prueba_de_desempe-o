@@ -15,13 +15,15 @@ export function renderLogin() {
     </form>
   `;
 
-  qs(app, '#loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target).entries());
+  const loginForm = qs(app, '#loginForm');
+  loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(loginForm);
+    const data = Object.fromEntries(formData.entries());
     const users = await api.getUsers();
-    const found = users.find(u => u.email === data.email && u.password === data.password);
-    if (found) {
-      saveSession(found);
+    const user = users.find(u => u.email === data.email && u.password === data.password);
+    if (user) {
+      saveSession(user);
       navigateTo('/dashboard');
     } else {
       alert('Password or email incorrect');

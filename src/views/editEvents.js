@@ -1,7 +1,7 @@
 import { api } from '../services/api.js';
 import { navigateTo } from '../router/index.js';
 import { qs } from '../utils/dom.js';
-
+// function to render the edit event view
 export async function renderEditEvent() {
   const app = document.getElementById('app');
   const id = location.hash.split('/').pop();
@@ -10,7 +10,7 @@ export async function renderEditEvent() {
   if (!event) {
     return app.innerHTML = '<p>Event no found </p>';
   }
-
+//render the edit event form
   app.innerHTML = `
     <h2>Edit event</h2>
     <form id="eventForm">
@@ -22,7 +22,7 @@ export async function renderEditEvent() {
       <button type="button" id="cancelBtn">Cancel</button>
     </form>
   `;
-
+// Add event listeners for the form submission and cancel button
   qs(app, '#cancelBtn').addEventListener('click', () => navigateTo('/dashboard'));
   qs(app, '#eventForm').addEventListener('submit', async (e) => {
     e.preventDefault();
