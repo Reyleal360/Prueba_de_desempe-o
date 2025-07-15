@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Jose",
+      "email": "admin@events",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": "1752534625756",
+      "name": "Reinaldo Leal",
+      "email": "rexleal360@gmail.com",
+      "password": "123",
+      "role": "visitor"
+    },
+    {
+      "id": "1752534652595",
+      "name": "Celular",
+      "email": "lucas@gmail.com",
+      "password": "123",
+      "role": "admin"
+    },
+    {
+      "id": 1752537324683,
+      "name": "Celular",
+      "email": "rexleal360@gmail.com",
+      "password": "123",
+      "role": "visitor"
+    },
+    {
+      "id": 1752539220775,
+      "name": "Celular",
+      "email": "rexleal360@gmail.com",
+      "password": "222",
+      "role": "visitor"
+    }
+  ],
+  "events": [
+    {
+      "id": 1752537866561,
+      "name": "Celular",
+      "description": "23214",
+      "date": "2025-07-03",
+      "capacity": "222",
+      "enrolled": []
+    }
+  ]
+}
